@@ -3,39 +3,44 @@ import { useAuthStore } from '~/store/auth';
 
 let route = useRoute();
 let authStore = useAuthStore();
+
 let centerItems = computed(() => {
     return [
-
         {
             label: 'Home',
             to: '/',
             active: route.path === '/',
-
         },
         {
             label: 'Admin',
-            //to: '/admin',
             active: route.path.startsWith('/admin'),
             children: [
                 {
                     label: 'Posts',
                     to: '/admin/posts',
                     active: route.path.startsWith('/admin/posts'),
+                },
+                {
+                    label: 'Tags',
+                    to: '/admin/tags',
+                    active: route.path.startsWith('/admin/tags'),
                 }
             ]
         }
     ]
 });
+
 let rightItems = computed(() => {
     let items = [];
+
     if (authStore.user) {
         items.push({
             label: authStore.user.name,
             children: [
                 {
                     label: 'Logout',
-                    async onSelect(){
-                       await authStore.logout();
+                    async onSelect() {
+                        await authStore.logout();
                     }
                 }
             ]
@@ -56,8 +61,10 @@ let rightItems = computed(() => {
     return items;
 });
 </script>
+
 <template>
     <UHeader title="Blog">
+
         <template #right>
             <UNavigationMenu :items="rightItems" class="w-full justify-end" />
             <UColorModeButton />
