@@ -1,6 +1,38 @@
 <script setup>
+import { useAuthStore } from '~/store/auth';
 
-</script>
-<template>
+const authStore = useAuthStore();
+const router = useRouter();
+let formData = ref({
+    name: '',
+    email: '',
+    password: '', 
+    password_confirmation: '', 
+
+});
+async function register() {
+    await authStore.register(formData.value);
+    if(!authStore.errors) {
+        router.push('/');
+    }
     
+}
+</script>
+
+<template>
+    <UPageCard class="mt-3" title="Tailwind CSS" >
+        <UFormField  label="Name" :error="authStore.errors?.email?.find(() => true)">
+            <UInput type="text" v-model="formData.name" class="w-full" placeholder="Name" />
+        </UFormField>
+        <UFormField  label="Email" :error="authStore.errors?.email?.find(() => true)">
+            <UInput type="email" v-model="formData.email" class="w-full" placeholder="Email" />
+        </UFormField>
+        <UFormField label="Password">
+            <UInput type="password" v-model="formData.password" class="w-full" placeholder="Password" :error="authStore.errors?.password?.find(() => true)" />
+        </UFormField>
+        <UFormField label="Confirm Password">
+            <UInput type="password" v-model="formData.password_confirmation" class="w-full" placeholder="Confirm Password" :error="authStore.errors?.password?.find(() => true)" />
+        </UFormField>
+        <UButton block @click="register">Register</UButton>
+    </UPageCard>
 </template>

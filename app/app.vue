@@ -4,6 +4,7 @@ import { useAuthStore } from './store/auth';
 axios.defaults.withXSRFToken = true;
 axios.defaults.withCredentials = true;
 let authStore = useAuthStore();
+await authStore.getXSRFToken();
 authStore.getUser();
 </script>
 

@@ -34,6 +34,9 @@ let rightItems = computed(() => {
             children: [
                 {
                     label: 'Logout',
+                    async onSelect(){
+                       await authStore.logout();
+                    }
                 }
             ]
         });
